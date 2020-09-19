@@ -1,2 +1,2 @@
 # LeetCode
-My LeetCode Code Project
+C++ / TypeScript / JavaScript Solution for LeetCode
