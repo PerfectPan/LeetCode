@@ -1,0 +1,14 @@
+/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var threeConsecutiveOdds = function(arr) {
+    const n = arr.length;
+    for (let i = 0; i <= n - 3; ++i) {
+        if ((arr[i] & 1) && (arr[i + 1] & 1) && (arr[i + 2] & 1)) {
+            return true;
+        }
+    }
+    return false;
+};
+
