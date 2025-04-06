@@ -5,6 +5,7 @@ public:
         sort(nums.begin(), nums.end());
         vector<int> f(n, 1), path(n, -1);
         int mx = 1, idx = 0;
+
         for (int i = 1; i < nums.size(); ++i) {
             for (int j = 0; j < i; ++j) {
                 if (nums[i] % nums[j] == 0 and f[j] + 1 > f[i]) {
