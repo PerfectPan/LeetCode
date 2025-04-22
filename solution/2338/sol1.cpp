@@ -1,37 +1,48 @@
+const int MOD = 1'000'000'007;
+const int MAX_N = 10'000;
+const int MAX_E = 13;
+
+vector<int> EXP[MAX_N + 1];
+int C[MAX_N + MAX_E][MAX_E + 1];
+
+int init = []() {
+    for (int x = 2; x <= MAX_N; ++x) {
+        int t = x;
+        for (int i = 2; i * i <= t; ++i) {
+            int e = 0;
+            for (; t % i == 0; t /= i) {
+                e++;
+            }
+            if (e) {
+                EXP[x].push_back(e);
+            }
+        }
+        if (t > 1) {
+            EXP[x].push_back(1);
+        }
+    }
+
+    for (int i = 0; i < MAX_N + MAX_E; ++i) {
+        C[i][0] = 1;
+        for (int j = 1; j <= min(i, MAX_E); ++j) {
+            C[i][j] = (C[i - 1][j] + C[i - 1][j - 1]) % MOD;
+        }
+    }
+
+    return 0;
+}();
+
 class Solution {
 public:
-    int P = 1e9 + 7;
-    int C[10020][20];
-    void up(int& a, int b) { a += b; if (a >= P) a -= P;}
     int idealArrays(int n, int maxValue) {
-        int ans = 0;
-        C[0][0] = 1;
-        for (int i = 1; i <= n + 13; ++i) {
-            C[i][0] = 1;
-            for (int j = 1; j <= min(i, 13); ++j) {
-                up(C[i][j], C[i - 1][j]);
-                up(C[i][j], C[i - 1][j - 1]);
+        long long ans = 0;
+        for (int x = 1; x <= maxValue; ++x) {
+            long long res = 1;
+            for (int e: EXP[x]) {
+                res = res * C[n + e - 1][e] % MOD;
             }
+            ans += res;
         }
-        for (int i = 1; i <= maxValue; ++i) {
-            int res = 1;
-            int t = i;
-            for (int j = 2; j * j <= t; ++j) {
-                if (t % j == 0) {
-                    int cnt = 0;
-                    while (t % j == 0) {
-                        t /= j;
-                        cnt++;
-                    }
-                    res = 1LL * res * C[n + cnt - 1][cnt] % P;
-                }
-            }
-            if (t > 1) {
-                res = 1LL * res * C[n][1] % P;
-            }
-            up(ans, res);
-        }
-        return ans;
+        return ans % MOD;
     }
 };
-
