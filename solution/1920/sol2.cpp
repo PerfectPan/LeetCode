@@ -14,6 +14,7 @@ public:
             }
             nums[cur] = ~x;
         }
+
         for (int i = 0; i < nums.size(); ++i) {
             nums[i] = ~nums[i];
         }
